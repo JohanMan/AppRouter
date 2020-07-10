@@ -1,0 +1,28 @@
+apply plugin: 'java-library'
+apply plugin: 'maven'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.google.auto.service:auto-service:1.0-rc2'
+    implementation 'com.johan:router-annotation:1.0'
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
+
+ext {
+    PUBLISH_GROUP_ID = 'com.johan'
+    PUBLISH_ARTIFACT_ID = 'router-processor'
+    PUBLISH_VERSION = '1.1'
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: "file://F:/Maven/RouterProcessor")
+        pom.project {
+            groupId project.PUBLISH_GROUP_ID
+            artifactId project.PUBLISH_ARTIFACT_ID
+            version project.PUBLISH_VERSION
+        }
+    }
+}
