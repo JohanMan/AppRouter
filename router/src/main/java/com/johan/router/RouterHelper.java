@@ -36,7 +36,7 @@ public class RouterHelper {
         Set<String> routerBuilderSet;
         if (isNewVersion(context)) {
             routerBuilderSet = scanRouterBuilder(context);
-            sharedPreferences.edit().putStringSet(KEY_ROUTER_BUILDER_SET, routerBuilderSet).apply();
+            sharedPreferences.edit().putStringSet(KEY_ROUTER_BUILDER_SET, routerBuilderSet).commit();
         } else {
             routerBuilderSet = sharedPreferences.getStringSet(KEY_ROUTER_BUILDER_SET, new HashSet<String>());
         }
@@ -56,7 +56,7 @@ public class RouterHelper {
             Enumeration<String> entries = dexFile.entries();
             while (entries.hasMoreElements()) {
                 String entryName = entries.nextElement();
-                Class<?> entryClass = Class.forName(entryName, true, classLoader);
+                Class<?> entryClass = Class.forName(entryName, false, classLoader);
                 if (entryClass != RouterBuilder.class && RouterBuilder.class.isAssignableFrom(entryClass)) {
                     routerMapSet.add(entryClass.getName());
                 }
@@ -77,11 +77,12 @@ public class RouterHelper {
         SharedPreferences sharedPreferences = context.getSharedPreferences(KEY_SP, Context.MODE_PRIVATE);
         int oldVersion = sharedPreferences.getInt(KEY_VERSION, 0);
         int currentVersion = getPackageCode(context);
+        System.err.println("router ; " + oldVersion + " === " + currentVersion);
         if (oldVersion == currentVersion) {
-            return true;
+            return false;
         }
         sharedPreferences.edit().putInt(KEY_VERSION, currentVersion).apply();
-        return false;
+        return true;
     }
 
     /**
@@ -169,6 +170,8 @@ public class RouterHelper {
             outState.putLong(key, (long) value);
         } else if (type == double.class || type == Double.class) {
             outState.putDouble(key, (double) value);
+        } else if (type == Parcelable.class) {
+            outState.putParcelable(key, (Parcelable) value);
         } else {
             throw new RuntimeException("putValue not support " + type + " !!!");
         }
@@ -205,6 +208,8 @@ public class RouterHelper {
                 return intent.getLongExtra(key, 0);
             } else if (type == double.class || type == Double.class) {
                 return intent.getDoubleExtra(key, 0);
+            } else if (type == Parcelable.class) {
+                return intent.getParcelableExtra(key);
             }
             throw new RuntimeException("getValueFromIntent not support " + type + " !!!");
         }
@@ -234,6 +239,8 @@ public class RouterHelper {
                 return savedInstanceState.getLong(key, 0);
             } else if (type == double.class || type == Double.class) {
                 return savedInstanceState.getDouble(key, 0);
+            } else if (type == Parcelable.class) {
+                return savedInstanceState.getParcelable(key);
             }
             throw new RuntimeException("getValueFromBundle not support " + type + " !!!");
         }

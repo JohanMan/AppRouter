@@ -6,8 +6,8 @@ android {
         applicationId "com.johan.approuter"
         minSdkVersion 14
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -27,9 +27,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation 'com.johan:router:1.0'
-    implementation 'com.johan:router-annotation:1.0'
-    annotationProcessor 'com.johan:router-processor:1.1'
+    implementation project(':router')
+    implementation project(':router-annotation')
+    annotationProcessor project(':router-processor')
     implementation project(':module1')
     implementation project(':module2')
     implementation project(':base')

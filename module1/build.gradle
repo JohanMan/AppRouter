@@ -23,8 +23,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation 'com.johan:router:1.0'
-    implementation 'com.johan:router-annotation:1.0'
-    annotationProcessor 'com.johan:router-processor:1.1'
+    implementation project(':router')
+    implementation project(':router-annotation')
+    annotationProcessor project(':router-processor')
     implementation project(':base')
 }

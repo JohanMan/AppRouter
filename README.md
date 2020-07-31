@@ -140,7 +140,7 @@ apply from: "router.gradle"
 ```groovy
 // dependencies 添加依赖
 dependencies {
-    implementation 'com.johan:router:1.0'
+    implementation 'com.johan:router:1.2'
     implementation 'com.johan:router-annotation:1.0'
     annotationProcessor 'com.johan:router-processor:1.1'
 }
